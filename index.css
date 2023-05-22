@@ -1,0 +1,181 @@
+html,
+
+
+/* 
+
+  background: -webkit-linear-gradient(45deg, #49a09d, #5f2c82);
+  background: linear-gradient(45deg, #49a09d, #5f2c82);
+  */
+
+body {
+  background-image: url("./background.jpg");
+  background-size: 110%,contain;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: sans-serif;
+  font-weight: 100;
+ 
+}
+.container-t {
+    position: absolute;
+    margin-left: 10%;
+    top: 50%;
+    left: 50%;
+
+}
+
+.container
+{ 
+  top:20%;
+    position: absolute;
+    font-family: arial;
+    font-size: 24px;
+    margin: 35px;
+    width: 350px;
+    height: 200px;  
+   
+   
+}
+
+
+
+table
+{
+  width: 800px;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+th,
+td {
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+th {
+  text-align: left;
+}
+thead th {
+  background-color: #55608f;
+}
+tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+tbody td {
+  position: relative;
+}
+tbody td:hover:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9999px;
+  bottom: -9999px;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: -1;
+}
+
+.inputs
+{ 
+    padding: 100%;
+    display: inline-flex;
+    margin-top: -100%;
+    margin-left: 20%;
+}
+
+.mission
+{
+
+  border-radius: 2px;
+  border: 2px solid rgb(255, 255, 255);
+  padding: 10px;
+  margin-right: 10%;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+    
+}
+
+
+/* Btn CSS */
+.btn {
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.btn:hover,
+.btn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
+.logo
+{
+  display: block;
+  margin: 0 auto;
+  max-width: 60%;
+  height: auto;
+}
+
+.logo-c
+{
+  background-color:white;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ 
+}
+
+.text
+{
+  font-style: italic;
+  color: black;
+}
