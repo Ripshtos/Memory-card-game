@@ -80,16 +80,26 @@ function handleDelete() {
 
 
 function shuffle() {
-  var container = document.getElementById("row");
-  var divs = Array.from(container.querySelectorAll('div'));
+  var parent = document.getElementById("row");
+  var divs = Array.from(parent.getElementsByTagName('div'));
 
-  // Shuffle the div elements using the Fisher-Yates algorithm
+  // Shuffle the array using Fisher-Yates algorithm
   for (var i = divs.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
-    container.appendChild(divs[j]);
-    container.appendChild(divs[i]);
+    var temp = divs[i];
+    divs[i] = divs[j];
+    divs[j] = temp;
   }
 
+  // Clear the parent container
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+
+  // Append the shuffled divs back to the parent
+  for (var i = 0; i < divs.length; i++) {
+    parent.appendChild(divs[i]);
+  }
 }
 
 
@@ -212,11 +222,12 @@ function HandleImageClick(element)
     Correct(element.id);
   }
 
-  if(counter == 1)
+  if(counter == 1 || image_id != lastClickedid )
   {
     counter = 0;
     lastClicked = "";
     lastClickedid = "";
+    return;
   }
 
 
