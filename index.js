@@ -1,5 +1,11 @@
 var counter = 0;
+var lastClicked;
+var lastClickedid;
 
+
+
+
+/*
 function handleOrder() {
   let id1 = this.id;
   let rowIndex = id1[id1.length - 1];
@@ -70,68 +76,149 @@ function handleDelete() {
     table.rows[i].cells[4].querySelector("button").id = "Down" + i;
   }
 }
+*/
 
-function handleButtonClick() {
-  var table = document.getElementById("myTable");
 
-  var table = document.getElementById("myTable");
-  const strMisson = document.getElementById("mission").value.trim();
+function shuffle() {
+  var container = document.getElementById("row");
+  var divs = Array.from(container.querySelectorAll('div'));
 
-  console.log(strMisson);
-  if (strMisson.length > 30) {
-    alert("Mission title should be less than 30 letters please !");
-    return;
+  // Shuffle the div elements using the Fisher-Yates algorithm
+  for (var i = divs.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    container.appendChild(divs[j]);
+    container.appendChild(divs[i]);
   }
 
-  if (strMisson.length == 0) {
-    alert("Mission title empty");
-    return;
-  }
-
-  // Create an empty <tr> element and add it to the 1st position of the table:
-  var row = table.insertRow(counter);
-
-  // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-  var cell1 = row.insertCell(0);
-  var cell2 = row.insertCell(1);
-  var cell3 = row.insertCell(2);
-  var cell4 = row.insertCell(3);
-  var cell5 = row.insertCell(4);
-
-  cell1.innerHTML = counter + 1;
-
-  cell2.innerHTML = strMisson;
-  cell2.className = "text";
-  
-
-  //add first button
-  let button = document.createElement("button");
-  button.innerText = "Delete";
-  button.className = "btn";
-  button.onclick = handleDelete;
-  button.id = "Delete" + counter;
-
-  cell3.append(button);
-
-  //add second button
-  let button2 = document.createElement("button");
-  button2.innerText = "Up";
-  button2.className = "btn";
-  button2.onclick = handleOrder;
-  button2.id = "Up" + counter;
-  cell4.append(button2);
-
-  //add third button
-  let button3 = document.createElement("button");
-  button3.innerText = "Down";
-  button3.className = "btn";
-  button3.onclick = handleOrder;
-  button3.id = "Down" + counter;
-  cell5.append(button3);
-
-  counter++;
 }
 
-function myDeleteFunction() {
-  document.getElementById("myTable").deleteRow(0);
+
+
+
+
+
+
+
+
+function separateString(inputString) {
+  var numbersString = inputString.replace(/\D/g, '');
+  var charsString = inputString.replace(/[0-9]/g, '');
+  
+  return [numbersString, charsString];
+}
+
+
+
+
+function handleButtonClick() {
+
+  var inputs = document.getElementById("inputs");
+
+  var table = document.getElementById("myTable");
+
+  const strMisson = document.getElementById("mission").value.trim();
+
+ 
+
+  console.log(strMisson);
+  if (strMisson > 30) {
+    alert("No more than 30 cards please !");
+    return;
+  }
+
+  if ( strMisson % 2 != 0) {
+    alert("must be an even number of cards please");
+    return;
+  }
+
+  if (strMisson <= 2) {
+    alert("must be more than 2");
+    return;
+  }
+ 
+// Get all the div elements within the table
+var divs = table.querySelectorAll('div');
+
+// Loop to delete the specified number of divs while excluding the specific row
+for (var i = 0; i < 30 - strMisson; i++) {
+  // Get the current div element
+  var div = divs[i];
+
+  // Check if the div belongs to the excluded row
+  if (div.id == "row") {
+    continue; // Skip to the next iteration if the div is in the excluded row
+  }
+
+  // Remove the div element from the table
+  div.remove();
+}
+
+
+  shuffle();
+  inputs.style.visibility= "hidden";
+  table.style.visibility = "visible";
+
+ 
+}
+
+
+
+
+function Correct(image_clicked)
+{
+  var div1 = document.getElementById(image_clicked);
+  if (div1) {
+    div1.remove();
+  }
+
+  var div2 = document.getElementById(lastClicked + lastClickedid);
+  if (div2) {
+    div2.remove();
+  }
+  
+  image_clicked = "";
+  lastClicked = "";
+
+  var win = document.getElementById("row");
+  if (win) {
+    var childDivs = win.querySelectorAll('div');
+    if(childDivs.length == 0)
+    {
+      alert("win"); 
+    }
+  }
+
+}
+
+function HandleImageClick(element)
+{
+  console.log(element.id);
+
+  var string = separateString(element.id);
+  var image_id = string[0];
+  var image_clicked = string[1];
+  
+  if(counter == 0)
+  {
+    lastClicked = image_clicked;
+    lastClickedid = image_id;
+    counter++;
+    return;
+  }
+  
+  if(counter == 1 && lastClicked == image_clicked && image_id != lastClickedid )
+  {
+    counter = 0;
+    Correct(element.id);
+  }
+
+  if(counter == 1)
+  {
+    counter = 0;
+    lastClicked = "";
+    lastClickedid = "";
+  }
+
+
+
 }
