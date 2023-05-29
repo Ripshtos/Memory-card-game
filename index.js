@@ -121,7 +121,7 @@ async function handleButtonClick() {
   }
 
   if (strMisson <= 2) {
-    alert("must be more than 2");
+    alert("must be more than 2 cards");
     return;
   }
  
