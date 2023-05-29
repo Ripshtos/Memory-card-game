@@ -9,11 +9,23 @@ html,
 
 body {
   background-image: url("./background.jpg");
-  background-size: 110%,contain;
+  background-size: 110%, contain;
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: sans-serif;
   font-weight: 100;
- 
 }
- 
+
+
+.vincent {
+  background-image: url("./ContainerB.jpg");
+  background-size: 100%, contain;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  font-family: sans-serif;
+  font-weight: 100;
+}
+
+.custom-margin-top {
+  margin-top: 50px; /* Adjust the desired distance here */
+}

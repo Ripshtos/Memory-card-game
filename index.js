@@ -2,81 +2,66 @@ var counter = 0;
 var lastClicked;
 var lastClickedid;
 
+var minutes = 0;
+var seconds = 0;
+var intervalId;
 
+window.onload = function() {
+   timerElement = document.getElementById('timer');
+   seconds = 0;
+   intervalId;  
+};
 
+const sleep = async (milliseconds) => {
+  await new Promise(resolve => {
+      return setTimeout(resolve, milliseconds)
+  });
+};
 
-/*
-function handleOrder() {
-  let id1 = this.id;
-  let rowIndex = id1[id1.length - 1];
-  let direction = id1[0];
-  console.log(rowIndex);
-  console.log(direction);
-  var table = document.getElementById("myTable");
+// Usage:
+function freezeWebsite() {
+  // Disable user interactions during the freeze
+  document.body.style.pointerEvents = 'none';
 
-  if (direction == "D") {
-    // checks for direction and if the row below exists
-    console.log("inside");
-    // Get the current row
-    var currentRow = table.rows[rowIndex];
-
-    // Get the next row
-    var nextRow = table.rows[parseInt(rowIndex) + 1];
-
-    // Check if the next row exists
-    if (nextRow != null) {
-      console.log("inside2");
-      let temp = currentRow.cells[1].textContent;
-      console.log(temp);
-
-      currentRow.cells[1].textContent = nextRow.cells[1].textContent;
-      nextRow.cells[1].textContent = temp;
-    }
-  }
-
-  if (direction == "U") {
-    // checks for direction and if the row above exists
-    console.log("inside");
-    // Get the current row
-    var currentRow = table.rows[rowIndex];
-
-    // Get the prev row
-    var prevRow = table.rows[parseInt(rowIndex) - 1];
-
-    // Check if the next row exists
-    if (prevRow != null) {
-      console.log("inside2");
-      let temp = prevRow.cells[1].textContent;
-
-      console.log(temp);
-
-      prevRow.cells[1].textContent = currentRow.cells[1].textContent;
-      currentRow.cells[1].textContent = temp;
-    }
-  }
+  setTimeout(function() {
+    // Enable user interactions after the freeze
+    document.body.style.pointerEvents = 'auto';
+  }, 3000);
 }
 
-function handleDelete() {
-  let id1 = this.id;
-  let rowIndex = id1[id1.length - 1];
 
-  console.log(rowIndex);
-  var table = document.getElementById("myTable");
-  table.deleteRow(rowIndex);
-  counter--;
-
-  for (
-    let i = 0;
-    i < table.rows.length;
-    i++ //updates id's of cells
-  ) {
-    table.rows[i].cells[0].textContent = i + 1;
-    table.rows[i].cells[2].querySelector("button").id = "Delete" + i;
-    table.rows[i].cells[3].querySelector("button").id = "Up" + i;
-    table.rows[i].cells[4].querySelector("button").id = "Down" + i;
+function updateTimer() {
+  seconds++;
+  if (seconds === 60) {
+    seconds = 0;
+    minutes++;
   }
+  timerElement.textContent = minutes + ' minutes ' + seconds + ' seconds';
 }
-*/
+
+function startTimer() {
+  intervalId = setInterval(updateTimer, 1000);
+}
+
+function stopTimer() {
+  clearInterval(intervalId);
+}
+
+
+function hidePics() {
+  var parent = document.getElementById("row");
+  var divs = parent.getElementsByTagName('div');
+  for (var i = 0; i < divs.length; i++) {
+    var div = divs[i];
+    var img = div.getElementsByTagName('img')[0];
+    div.style.backgroundImage = 'url("icon.jpg")';
+    div.style.backgroundSize = 'contain';
+    img.style.visibility = 'hidden';
+  }
+
+}
+
+
 
 
 function shuffle() {
@@ -103,13 +88,6 @@ function shuffle() {
 }
 
 
-
-
-
-
-
-
-
 function separateString(inputString) {
   var numbersString = inputString.replace(/\D/g, '');
   var charsString = inputString.replace(/[0-9]/g, '');
@@ -117,22 +95,23 @@ function separateString(inputString) {
   return [numbersString, charsString];
 }
 
-
-
-
-function handleButtonClick() {
+async function handleButtonClick() {
 
   var inputs = document.getElementById("inputs");
 
   var table = document.getElementById("myTable");
+  
+  var timer = document.getElementById("timerC");
+
+  var name = document.getElementById("name").value.trim();
+
+  document.getElementById("nameC").textContent ="Player name : " + name;
 
   const strMisson = document.getElementById("mission").value.trim();
 
- 
-
   console.log(strMisson);
-  if (strMisson > 30) {
-    alert("No more than 30 cards please !");
+  if (strMisson > 60) {
+    alert("No more than 60 cards please !");
     return;
   }
 
@@ -150,7 +129,7 @@ function handleButtonClick() {
 var divs = table.querySelectorAll('div');
 
 // Loop to delete the specified number of divs while excluding the specific row
-for (var i = 0; i < 30 - strMisson; i++) {
+for (var i = 0; i < 60 - strMisson; i++) {
   // Get the current div element
   var div = divs[i];
 
@@ -167,6 +146,10 @@ for (var i = 0; i < 30 - strMisson; i++) {
   shuffle();
   inputs.style.visibility= "hidden";
   table.style.visibility = "visible";
+  timer.style.visibility ='visible';
+  await sleep(10000);
+  hidePics();
+  startTimer(); // Start the timer
 
  
 }
@@ -178,12 +161,12 @@ function Correct(image_clicked)
 {
   var div1 = document.getElementById(image_clicked);
   if (div1) {
-    div1.remove();
+    div1.style.visibility = 'hidden';
   }
 
   var div2 = document.getElementById(lastClicked + lastClickedid);
   if (div2) {
-    div2.remove();
+    div2.style.visibility = 'hidden';
   }
   
   image_clicked = "";
@@ -200,7 +183,7 @@ function Correct(image_clicked)
 
 }
 
-function HandleImageClick(element)
+async function HandleImageClick(element)
 {
   console.log(element.id);
 
@@ -208,6 +191,15 @@ function HandleImageClick(element)
   var image_id = string[0];
   var image_clicked = string[1];
   
+  var parent = document.getElementById(element.id);
+  var img = parent.getElementsByTagName('img');
+
+  parent.style.backgroundImage = "none";
+
+  for (var i = 0; i < img.length; i++) {
+    img[i].style.visibility = 'visible';
+  }
+
   if(counter == 0)
   {
     lastClicked = image_clicked;
@@ -216,9 +208,12 @@ function HandleImageClick(element)
     return;
   }
   
+  freezeWebsite();
+
   if(counter == 1 && lastClicked == image_clicked && image_id != lastClickedid )
   {
     counter = 0;
+    await sleep(3000);
     Correct(element.id);
   }
 
@@ -227,9 +222,9 @@ function HandleImageClick(element)
     counter = 0;
     lastClicked = "";
     lastClickedid = "";
+    await sleep(3000);
+    hidePics();
     return;
   }
-
-
 
 }
